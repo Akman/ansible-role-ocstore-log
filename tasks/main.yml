@@ -8,9 +8,9 @@
     patterns: "{{ item.patterns }}"
     use_regex: True
   with_flattened:
-    - "{{ ocstore_shared_log_path }}"
+    - "{{ ocstore_log_path }}"
   register: ocstore_log_files
-  when: ocstore_shared_log_clean is defined and ocstore_shared_log_clean == "yes"
+  when: ocstore_log_clean is defined and ocstore_log_clean == "yes"
   no_log: True  
 
 - name: ocStore | Log | Delete log files
@@ -20,5 +20,5 @@
   with_subelements:
      - "{{ ocstore_log_files.results }}"
      - files
-  when: ocstore_shared_log_clean is defined and ocstore_shared_log_clean == "yes"
+  when: ocstore_log_clean is defined and ocstore_log_clean == "yes"
   no_log: True
