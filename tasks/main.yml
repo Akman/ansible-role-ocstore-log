@@ -1,16 +1,34 @@
 ---
 # tasks/main.yml
 
+- name: ocStore | Log | Build all log file list
+  set_fact:
+    ocstore_log_list:
+      - "{{ ocstore_system_log }}"
+      - "{{ ocstore_vqmod_log }}"
+  when: ocstore_log_clean is defined and ocstore_log_clean == "all"
+
+- name: ocStore | Log | Build system log file list
+  set_fact:
+    ocstore_log_list:
+      - "{{ ocstore_system_log }}"
+  when: ocstore_log_clean is defined and ocstore_log_clean == "system"
+  
+- name: ocStore | Log | Build vqmod log file list
+  set_fact:
+    ocstore_log_list:
+      - "{{ ocstore_vqmod_log }}"
+  when: ocstore_log_clean is defined and ocstore_log_clean == "vqmod"
+  
 - name: ocStore | Log | Enumerate log files
   find:
     paths: "{{ ocstore_www_root }}/{{ ocstore_shared_dir }}/{{ item.path }}"
     file_type: "any"
     patterns: "{{ item.patterns }}"
     use_regex: True
-  with_flattened:
-    - "{{ ocstore_log_path }}"
+  with_flattened: "{{ ocstore_log_list }}"
   register: ocstore_log_files
-  when: ocstore_log_clean is defined and ocstore_log_clean == "yes"
+  when: ocstore_log_list is defined
 
 - name: ocStore | Log | Delete log files
   file:
@@ -19,4 +37,4 @@
   with_subelements:
      - "{{ ocstore_log_files.results }}"
      - files
-  when: ocstore_log_clean is defined and ocstore_log_clean == "yes"
+  when: ocstore_log_files is defined
