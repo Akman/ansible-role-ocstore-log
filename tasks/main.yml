@@ -22,7 +22,7 @@
   
 - name: ocStore | Log | Enumerate log files
   find:
-    paths: "{{ ocstore_www_root }}/{{ ocstore_shared_dir }}/{{ item.path }}"
+    paths: "{{ ocstore_www_root }}/{{ ocstore_current_dir }}/{{ item.path }}"
     file_type: "any"
     patterns: "{{ item.patterns }}"
     use_regex: True
