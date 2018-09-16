@@ -1,4 +1,4 @@
-# Ansible Role: ocstore-log
+# Ansible Role: ocstore_log
 
 Clean up ocStore log.
 
@@ -18,7 +18,7 @@ None.
 
     - hosts: all
       roles:
-        - Akman.ocstore-log
+        - Akman.ocstore_log
 
 *Inside `vars/main.yml`*:
 
